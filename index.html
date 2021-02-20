@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="circle-wrapper">
+        <button id="center-dot" type="button" class="center-dot disabled">
+          Click!
+        </button>
+        <div id="animated-circle" class="progress-circle animated"></div>
+      </div>
+    </div>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        var centerDot = document.getElementById("center-dot");
+        var animatedCircle = document.getElementById("animated-circle");
+
+        animatedCircle.addEventListener("animationend", function (e) {
+          if (e.animationName === "turn-completely") {
+            this.classList.remove("animated");
+            centerDot.classList.remove("disabled");
+          }
+        });
+
+        centerDot.addEventListener("click", function () {
+          console.log("click");
+          if (!this.classList.contains("disabled")) {
+            this.classList.add("disabled");
+            animatedCircle.classList.add("animated");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

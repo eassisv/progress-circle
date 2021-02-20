@@ -1,0 +1,119 @@
+$wrapper-size: 200px;
+$circle-size: $wrapper-size - 20px;
+
+@mixin shadowed($color) {
+  box-shadow: inset 0 0 5px adjust-color($color: $color, $alpha: -0.4),
+    inset 0 0 7px adjust-color($color: $color, $alpha: -0.6),
+    inset 0 0 9px adjust-color($color: $color, $alpha: -0.8),
+    inset 0 0 11px adjust-color($color: $color, $alpha: -0.95);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  min-height: 100vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .circle-wrapper {
+    width: $wrapper-size + 5px;
+    height: $wrapper-size + 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .center-dot {
+      z-index: 10;
+      border: none;
+      outline: none;
+      width: $circle-size - 5px;
+      height: $circle-size - 5px;
+      background-color: darkslategray;
+      position: absolute;
+      border-radius: 50%;
+      color: #cccccc;
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-shadow: 0 0 9px rgba(0, 0, 0, 0.25);
+      cursor: pointer;
+      transition: all 0.4s ease;
+      @include shadowed(grey);
+
+      &:hover {
+        color: white;
+        @include shadowed(white);
+      }
+
+      &.disabled {
+        cursor: default;
+        color: black;
+        @include shadowed(black);
+      }
+    }
+
+    .progress-circle {
+      position: relative;
+      width: $wrapper-size + 5px;
+      height: $wrapper-size + 5px;
+      clip-path: inset(0 0 0 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &::before,
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: $circle-size;
+        height: $circle-size;
+        border: 10px solid gold;
+        clip-path: inset(0 50% 0 0);
+        border-radius: 50%;
+      }
+    }
+
+    .animated {
+      animation: show-completely 0s linear 2s 1 forwards;
+
+      &::before {
+        animation: turn-half 2s linear 0s 1 forwards;
+      }
+
+      &::after {
+        animation: turn-completely 4s linear 0s 1 forwards;
+      }
+    }
+  }
+}
+
+@keyframes turn-half {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes turn-completely {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes show-completely {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
